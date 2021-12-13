@@ -1,0 +1,8 @@
+matplotlib
+numpy
+scikit_image
+scikit_learn
+streamlit
+pillow
+pickle
+nltk
