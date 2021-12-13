@@ -5,3 +5,4 @@ scikit_learn
 streamlit
 pillow
 nltk
+sklearn_crfsuite
