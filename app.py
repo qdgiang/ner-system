@@ -8,24 +8,40 @@ import spacy
 #from spacy import displacy
 import spacy_streamlit
 # loading the trained model
-pickle_in = open('first.pkl', 'rb') 
-classifier = pickle.load(pickle_in)
+formal_pickle_in = open('formal.pkl', 'rb') 
+formal_classifier = pickle.load(formal_pickle_in)
+casual_pickle_in = open('casual.pkl', 'rb')
+casual_classifier = pickle.load(casual_pickle_in)
  
 @st.cache()
   
 # defining the function which will make the prediction using the data which the user inputs 
-def prediction(str_in):   
+def prediction(str_in, mode):   
  
     # Pre-processing user input    
- 
-    # Making predictions 
-    prediction = classifier.predict(fromString2modelInput(str_in))
-    return prediction
-    #if prediction == 0:
-        #pred = 'Rejected'
-    #else:
-        #pred = 'Approved'
-    #return pred
+    df_predict = turn2correctdf(nltk.pos_tag(word_tokenize(str_in)))
+
+    if (mode == 0):
+        model = formal_classifier
+        prediction = model.predict(turndf2modelInput(df_predict))
+        for i in range(df_predict.index.size):
+            df_predict["Tag"][i] = prediction[0][i]
+        prediction2 = model.predict(turndf2modelInput(df_predict))
+        for i in range(df_predict.index.size):
+            df_predict["Tag"][i] = prediction[0][i]    
+        st.dataframe(df_predict)    
+
+    else:
+        model = casual_classifier
+        prediction = model.predict(turndf2modelInput_casual(df_predict))
+        for i in range(df_predict.index.size):
+            df_predict["Tag"][i] = prediction[0][i]
+        prediction2 = model.predict(turndf2modelInput_casual(df_predict))
+        for i in range(df_predict.index.size):
+            df_predict["Tag"][i] = prediction[0][i]    
+        st.dataframe(df_predict)    
+    return prediction2
+
 def img_to_bytes(img_path):
     img_bytes = Path(img_path).read_bytes()
     encoded = base64.b64encode(img_bytes).decode()
@@ -55,7 +71,10 @@ if navigation == "My own model":
     st.caption(reason)
     if st.button("Predict"): 
         if (len(str_input)!= 0):
-            result = prediction(str_in=str_input) 
+            if (setence_type == "Formal"):
+                result = prediction(str_in=str_input, mode= 0) 
+            else:
+                result = prediction(str_in=str_input, mode= 1)
             for i in range(len(result[0])):
                 print(result[0][i])
             st.success("result is: {}".format(result))
