@@ -189,6 +189,6 @@ def fromString2modelInput(str_in):
     return turndf2modelInput(turn2correctdf(nltk.pos_tag(word_tokenize(str_in))))
 
 def fromString2modelInput_casual(str_in):
-    return turndf2modelInput(turn2correctdf(nltk.pos_tag(word_tokenize(str_in))))
+    return turndf2modelInput(turn2correctdf_casual(nltk.pos_tag(word_tokenize(str_in))))
 
 
