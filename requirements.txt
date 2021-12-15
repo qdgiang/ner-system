@@ -3,7 +3,6 @@ numpy
 scikit_image
 scikit_learn
 streamlit
-pillow
 nltk
 sklearn_crfsuite
 spacy
