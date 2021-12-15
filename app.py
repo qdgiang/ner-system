@@ -5,7 +5,7 @@ import numpy as np
 from pathlib import Path
 import base64
 import spacy
-from spacy import displacy
+#from spacy import displacy
 import spacy_streamlit
 # loading the trained model
 pickle_in = open('first.pkl', 'rb') 
